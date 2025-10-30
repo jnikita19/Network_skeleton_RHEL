@@ -2,17 +2,17 @@
 
 
 locals {
-  base_name = "${var.env}-${var.program}"
+  base_name = "${var.program}-${var.purpose}"
 
   common_tags = {
-    env   = var.env
-    owner = var.owner
+    purpose = var.purpose
+    owner   = var.owner
   }
 
   ################ Subnets ################
   subnets = [
     for i in range(length(var.subnet_names)) : {
-      name       = "${var.env}-${var.program}-${var.subnet_names[i]}"
+      name       = "${var.purpose}-${var.program}-${var.subnet_names[i]}"
       cidr       = var.subnet_cidrs[i]
       avail_zone = var.subnet_azs[i]
     }
@@ -51,7 +51,7 @@ locals {
   ################ NACLs ################
   nacls = {
     for i in range(length(var.nacl_names)) :
-    var.nacl_names[i] => "${var.env}-${var.nacl_names[i]}-nacl"
+    var.nacl_names[i] => "${var.purpose}-${var.nacl_names[i]}-nacl"
   }
 
   nacl_config = {
@@ -67,7 +67,7 @@ locals {
   ################ Security Groups ################
   security_groups = {
     for i in range(length(var.sg_names)) :
-    var.sg_names[i] => "${var.env}-${var.project_name}-${var.sg_names[i]}-sg"
+    var.sg_names[i] => "${var.purpose}-${var.project_name}-${var.sg_names[i]}-sg"
   }
 
   security_group_config = {
@@ -86,7 +86,7 @@ locals {
           sg_name   = sg_key
           rule_type = "sg"
           rule      = rule
-        } : {
+          } : {
           sg_name   = sg_key
           rule_type = "cidr"
           rule      = rule
@@ -102,7 +102,7 @@ locals {
           sg_name   = sg_key
           rule_type = "sg"
           rule      = rule
-        } : {
+          } : {
           sg_name   = sg_key
           rule_type = "cidr"
           rule      = rule

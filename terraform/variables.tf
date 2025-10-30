@@ -1,19 +1,19 @@
 # variable "env" {
 #   type = string
 #   default = "dev"
-  
+
 # }
 
 # variable "program" {
 #   type = string
 #   default = "otcloud"
-  
+
 # }
 
 # variable "owner" {
 #   type = string
 #   default = "opstree"
-  
+
 # }
 # ###################### VPC Configuration ####################
 
@@ -180,19 +180,19 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
-variable "env" {
+variable "purpose" {
   type    = string
-  default = "dev"
+  default = "training"
 }
 
 variable "program" {
   type    = string
-  default = "otcloud"
+  default = "Rebbit"
 }
 
 variable "owner" {
   type    = string
-  default = "opstree"
+  default = "rebit"
 }
 
 ###################### VPC Configuration ####################
@@ -247,13 +247,13 @@ variable "public_subnet_indexes" {
 
 ######################## Route Tables ########################
 variable "public_rt_cidr_block" {
-  type        = string
-  default     = "0.0.0.0/0"
+  type    = string
+  default = "0.0.0.0/0"
 }
 
 variable "private_rt_cidr_block" {
-  type        = string
-  default     = "0.0.0.0/0"
+  type    = string
+  default = "0.0.0.0/0"
 }
 
 ########################## NAT ######################################
@@ -268,8 +268,8 @@ Number of NAT Gateways to create:
 - Set to 1 for a single NAT Gateway (cost-saving)
 - Set to length of public_subnet_ids for HA (one per AZ)
 EOT
-  type    = number
-  default = 1
+  type        = number
+  default     = 1
 }
 
 ########################## NACL ###########################
@@ -279,8 +279,8 @@ variable "create_nacl" {
 }
 
 variable "nacl_names" {
-  type        = list(string)
-  default     = ["public", "private", "application", "database"]
+  type    = list(string)
+  default = ["public", "private", "application", "database"]
 }
 
 variable "nacl_rules" {
@@ -479,52 +479,52 @@ variable "private_instance_sg_name" {
 # EC2 Settings
 ########################
 variable "enable_monitoring" {
-  type        = bool
-  default     = false
+  type    = bool
+  default = false
 }
 
 variable "disable_api_termination" {
-  type        = bool
-  default     = false
+  type    = bool
+  default = false
 }
 
 variable "ebs_optimized" {
-  type        = bool
-  default     = false
+  type    = bool
+  default = false
 }
 
 variable "bastion_volume_size" {
-  type        = number
-  default     = 20
+  type    = number
+  default = 20
 }
 
 variable "basition_volume_type" {
-  type        = string
-  default     = "gp3"
+  type    = string
+  default = "gp3"
 }
 
 
 variable "app_volume_size" {
-  type        = number
-  default     = 20
+  type    = number
+  default = 20
 }
 
 variable "app_volume_type" {
-  type        = string
-  default     = "gp3"
+  type    = string
+  default = "gp3"
 }
 variable "app_encrypted_volume" {
-  type        = bool
-  default     = true
+  type    = bool
+  default = true
 }
 
 
 variable "root_block_delete_on_termination" {
-  type        = bool
-  default     = true
+  type    = bool
+  default = true
 }
 
 variable "user_data" {
-  type        = string
-  default     = ""
+  type    = string
+  default = ""
 }

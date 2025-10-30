@@ -31,8 +31,7 @@ resource "aws_subnet" "subnets" {
     {
       Name = local.subnets[count.index].name
       # add cluster tag only if needed
-      "kubernetes.io/cluster/${var.env}-${var.program}-eks-cluster" = "owned"
-    },
+         },
     local.common_tags
   )
 }
@@ -190,7 +189,7 @@ resource "aws_security_group" "sg" {
   tags = merge(
     {
       Name  = each.value.name
-      env   = var.env
+      purpose   = var.purpose
       owner = var.owner
     },
     local.common_tags
@@ -282,13 +281,13 @@ resource "aws_instance" "bastion" {
   instance_type               = var.bastion_instance_type
   key_name                    = var.create_key_pair ? aws_key_pair.key_pair[0].key_name : var.bastion_key_name
   subnet_id                   = element(aws_subnet.subnets[*].id, var.bastion_subnet_index)
-  vpc_security_group_ids      = [aws_security_group.sg[var.bastion_sg_name].id]  
+  vpc_security_group_ids      = [aws_security_group.sg[var.bastion_sg_name].id]
   associate_public_ip_address = true
 
-  monitoring                  = var.enable_monitoring
-  disable_api_termination     = var.disable_api_termination
-  ebs_optimized               = var.ebs_optimized
-  user_data                   = var.user_data != "" ? var.user_data : null
+  monitoring              = var.enable_monitoring
+  disable_api_termination = var.disable_api_termination
+  ebs_optimized           = var.ebs_optimized
+  user_data               = var.user_data != "" ? var.user_data : null
 
   root_block_device {
     volume_size           = var.bastion_volume_size
@@ -305,7 +304,7 @@ resource "aws_instance" "bastion" {
 }
 
 resource "aws_eip" "bastion_eip" {
-  count = var.allocate_elastic_ip ? 1 : 0
+  count    = var.allocate_elastic_ip ? 1 : 0
   instance = aws_instance.bastion[0].id
   domain   = "vpc"
 
@@ -320,11 +319,11 @@ resource "aws_eip" "bastion_eip" {
 resource "aws_instance" "private_instances" {
   count = var.enable_private_instances ? var.private_instance_count : 0
 
-  ami                    = var.private_instance_ami_id
-  instance_type          = var.private_instance_type
-  key_name               = var.create_key_pair ? aws_key_pair.key_pair[0].key_name : var.private_instance_key
-  subnet_id              = element(aws_subnet.subnets[*].id, var.private_instance_subnet)
-  vpc_security_group_ids = [aws_security_group.sg[var.private_instance_sg_name].id]   
+  ami                     = var.private_instance_ami_id
+  instance_type           = var.private_instance_type
+  key_name                = var.create_key_pair ? aws_key_pair.key_pair[0].key_name : var.private_instance_key
+  subnet_id               = element(aws_subnet.subnets[*].id, var.private_instance_subnet)
+  vpc_security_group_ids  = [aws_security_group.sg[var.private_instance_sg_name].id]
   disable_api_termination = var.disable_api_termination
   monitoring              = var.enable_monitoring
   ebs_optimized           = var.ebs_optimized
