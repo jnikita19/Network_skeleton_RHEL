@@ -67,7 +67,7 @@ locals {
   ################ Security Groups ################
   security_groups = {
     for i in range(length(var.sg_names)) :
-    var.sg_names[i] => "${var.purpose}-${var.project_name}-${var.sg_names[i]}-sg"
+    var.sg_names[i] => "${var.purpose}-${var.sg_names[i]}-sg"
   }
 
   security_group_config = {
@@ -79,10 +79,10 @@ locals {
     }
   }
 
-  flattened_ingress_rules = flatten([
+   flattened_ingress_rules = flatten([
     for sg_key, sg_value in local.security_group_config : [
       for rule in sg_value.ingress : [
-        length(try(rule.source_sg_names, [])) > 0 ? {
+        rule.source_sg_names != null && length(rule.source_sg_names) > 0 ? {
           sg_name   = sg_key
           rule_type = "sg"
           rule      = rule
@@ -94,8 +94,7 @@ locals {
       ]
     ]
   ])
-
-  flattened_egress_rules = flatten([
+   flattened_egress_rules = flatten([
     for sg_key, sg_value in local.security_group_config : [
       for rule in sg_value.egress : [
         length(try(rule.source_sg_names, [])) > 0 ? {

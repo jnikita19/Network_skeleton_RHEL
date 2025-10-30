@@ -196,7 +196,6 @@ resource "aws_security_group" "sg" {
   )
 }
 
-# Ingress rules (cidr or source security-group)
 resource "aws_security_group_rule" "ingress" {
   for_each = var.create_sg ? {
     for idx, rule in local.flattened_ingress_rules :
@@ -210,11 +209,10 @@ resource "aws_security_group_rule" "ingress" {
   description       = each.value.rule.description
   security_group_id = aws_security_group.sg[each.value.sg_name].id
 
-  cidr_blocks              = each.value.rule_type == "cidr" ? try(each.value.rule.cidr_blocks, []) : []
+  cidr_blocks              = each.value.rule_type == "cidr" ? each.value.rule.cidr_blocks : null
   source_security_group_id = each.value.rule_type == "sg" ? aws_security_group.sg[each.value.rule.source_sg_names[0]].id : null
 }
 
-# Egress rules
 resource "aws_security_group_rule" "egress" {
   for_each = var.create_sg ? {
     for idx, rule in local.flattened_egress_rules :
@@ -228,14 +226,11 @@ resource "aws_security_group_rule" "egress" {
   description       = each.value.rule.description
   security_group_id = aws_security_group.sg[each.value.sg_name].id
 
-  cidr_blocks              = each.value.rule_type == "cidr" ? try(each.value.rule.cidr_blocks, []) : []
+  cidr_blocks              = each.value.rule_type == "cidr" ? each.value.rule.cidr_blocks : null
   source_security_group_id = each.value.rule_type == "sg" ? aws_security_group.sg[each.value.rule.source_sg_names[0]].id : null
 }
 
 
-
-
-# ##################333
 
 ###########################################
 # KEY PAIR HANDLING (Bastion + Private)

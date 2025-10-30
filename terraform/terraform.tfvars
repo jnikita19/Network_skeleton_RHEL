@@ -97,8 +97,8 @@ security_groups_rule = {
   rhel-private-instances-sg = {
     name = "rhel-private-instances-sg"
     ingress_rules = [
-      { from_port = 22, to_port = 22, protocol = "tcp", description = "Allow SSH from Bastion", cidr_blocks = ["0.0.0.0/0"] },
-      { from_port = 8080, to_port = 8080, protocol = "tcp", description = "App Port from Bastion", cidr_blocks = ["0.0.0.0/0"] }
+      { from_port = 22, to_port = 22, protocol = "tcp", description = "Allow SSH from Bastion", source_sg_names = ["bastion-sg"] },
+      { from_port = 8080, to_port = 8080, protocol = "tcp", description = "App Port from Bastion",  source_sg_names = ["bastion-sg"] }
     ]
     egress_rules = [
       { from_port = 0, to_port = 0, protocol = "-1", description = "Allow all outbound", cidr_blocks = ["0.0.0.0/0"] }
@@ -111,7 +111,7 @@ security_groups_rule = {
 ###########################################
 purpose = "training"
 owner   = "rebbit"
-
+program = "Rebbit"
 
 ###########################################
 # Key Pair Configuration
@@ -128,7 +128,7 @@ public_key_path       = "~/.ssh/id_rsa.pub"
 # Bastion Instance Configuration
 ###########################################
 enable_bastion_instance = true
-bastion_ami_id          = "ami-0d9a665f802ae6227" # RHEL 9.x AMI (example, update as per region)
+bastion_ami_id          = "ami-0d9a665f802ae6227" 
 bastion_instance_type   = "t2.micro"
 bastion_subnet_index    = 0
 bastion_sg_name         = "bastion-sg"
@@ -139,8 +139,8 @@ allocate_elastic_ip     = true
 # Private Instances Configuration
 ###########################################
 enable_private_instances = true
-private_instance_count   = 25
-private_instance_ami_id  = "ami-0fcb2d702e65ba9c1" # RHEL 9.x AMI (same or different)
+private_instance_count   = 1
+private_instance_ami_id  = "ami-0fcb2d702e65ba9c1" 
 private_instance_type    = "t2.micro"
 private_instance_subnet  = 1
 private_instance_sg_name = "rhel-private-instances-sg"
@@ -159,6 +159,3 @@ basition_volume_type             = "gp3"
 app_volume_size                  = 10
 app_volume_type                  = "gp3"
 app_encrypted_volume             = true
-###########################################
-# Tags Configuration
-#######################################

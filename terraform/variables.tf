@@ -1,178 +1,3 @@
-# variable "env" {
-#   type = string
-#   default = "dev"
-
-# }
-
-# variable "program" {
-#   type = string
-#   default = "otcloud"
-
-# }
-
-# variable "owner" {
-#   type = string
-#   default = "opstree"
-
-# }
-# ###################### VPC Configuration ####################
-
-# variable "vpc_cidr" {
-#   type        = string
-#   description = "CIDR block for the VPC"
-#   default     = "10.0.0.0/16"
-# }
-
-# variable "enable_dns_support" {
-#   type        = bool
-#   description = "Enable DNS support in VPC"
-#   default     = true
-# }
-
-# variable "enable_dns_hostnames" {
-#   type        = bool
-#   description = "Enable DNS hostnames in VPC"
-#   default     = true
-# }
-
-# variable "instance_tenancy" {
-#   type        = string
-#   description = "Tenancy option: default or dedicated"
-#   default     = "default"
-# }
-
-
-
-# ###################### Subnet Configuration ####################
-
-# variable "subnet_names" {
-#   type        = list(string)
-#   description = "List of subnet names"
-#   default = ["public-1", "private-1", "public-2", "private-2"]
-# }
-
-# variable "subnet_cidrs" {
-#   type        = list(string)
-#   description = "List of CIDR blocks for subnets"
-#   default = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24", "10.0.4.0/24"]
-
-# }
-
-# variable "subnet_azs" {
-#   type        = list(string)
-#   description = "List of Availability Zones for subnets"
-#   default = ["us-east-1a", "us-east-1a", "us-east-1b", "us-east-1b"]
-# }
-
-# variable "public_subnet_indexes" {
-#   type        = list(number)
-#   description = "Indexes of public subnets in subnet list"
-#   default = [ 0,2 ]
-# }
-
-
-# ######################## Route Tables ########################
-
-# variable "public_rt_cidr_block" {
-#   type        = string
-#   description = "CIDR for public route table"
-#   default = "0.0.0.0/0"
-# }
-
-# variable "private_rt_cidr_block" {
-#   type        = string
-#   description = "CIDR for private route table (typically 0.0.0.0/0)"
-#   default = "0.0.0.0/0"
-# }
-
-# ########################## NAT ######################################
-# variable "create_nat_gateway" {
-#   type        = bool
-#   description = "Enable NAT gateway creation"
-#   default     = true
-# }
-
-# ########################## NACL ###########################
-
-# variable "create_nacl" {
-#   type        = bool
-#   description = "Enable creation of custom network ACLs"
-#   default     = true
-# }
-
-# variable "nacl_names" {
-#   type        = list(string)
-#   description = "List of NACL names"
-#   default     = ["public", "private", "application", "database"]
-
-# }
-
-# variable "nacl_rules" {
-#   type        = any
-#   description = "Map of NACL rules (ingress/egress)"
-#   default     = {}
-# }
-
-
-
-# variable "nat_gateway_count" {
-#   description = <<EOT
-# Number of NAT Gateways to create:
-# - Set to 1 for a single NAT Gateway (cost-saving)
-# - Set to length of public_subnet_ids for HA (one per AZ)
-# EOT
-#   type        = number
-#   default     = 1
-# }
-
-
-# variable "sg_names" {
-#   description = "List of security group keys/names"
-#   type        = list(string)
-#   default     = ["openvpn", "alb", "frontend", "attendance", "employee", "salary", "postgresql", "redis", "scylla"]
-# }
-
-# variable "security_groups_rule" {
-#   description = "Map of security group rules"
-#   type = map(object({
-#     name = string
-#     ingress_rules = list(object({
-#       from_port       = number
-#       to_port         = number
-#       protocol        = string
-#       description     = string
-#       cidr_blocks     = optional(list(string), [])
-#       source_sg_names = optional(list(string), [])
-#     }))
-#     egress_rules = list(object({
-#       from_port   = number
-#       to_port     = number
-#       protocol    = string
-#       description = string
-#       cidr_blocks = list(string)
-#     }))
-#   }))
-# }
-
-# variable "sg_egress_type" {
-#   default = "egress"
-#   type    = string
-
-# }
-
-# variable "sg_ingress_type" {
-#   default = "ingress"
-#   type    = string
-
-# }
-
-# variable "create_sg" {
-#   description = "Set to true to create security groups"
-#   type        = bool
-#   default     = true
-# }
-
-
 
 variable "aws_region" {
   description = "AWS region to deploy into"
@@ -236,7 +61,7 @@ variable "subnet_cidrs" {
 variable "subnet_azs" {
   type        = list(string)
   description = "List of Availability Zones for subnets"
-  default     = ["us-east-1a", "us-east-1a", "us-east-1b", "us-east-1b"]
+  default     = ["us-east-2a", "us-east-2a", "us-east-2b", "us-east-2b"]
 }
 
 variable "public_subnet_indexes" {
@@ -280,7 +105,7 @@ variable "create_nacl" {
 
 variable "nacl_names" {
   type    = list(string)
-  default = ["public", "private", "application", "database"]
+  default = ["public", "private"]
 }
 
 variable "nacl_rules" {
@@ -292,13 +117,9 @@ variable "nacl_rules" {
 #################### Security Groups ########################
 variable "sg_names" {
   type    = list(string)
-  default = ["openvpn", "alb", "frontend", "attendance", "employee", "salary", "postgresql", "redis", "scylla"]
+  default = ["bastion-sg", "app-sg"]
 }
 
-variable "project_name" {
-  type    = string
-  default = "project"
-}
 
 variable "security_groups_rule" {
   description = "Map of security group rules"
