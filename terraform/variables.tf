@@ -12,7 +12,7 @@ variable "purpose" {
 
 variable "program" {
   type    = string
-  default = "Rebbit"
+  default = "rebit"
 }
 
 variable "owner" {

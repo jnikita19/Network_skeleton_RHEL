@@ -31,7 +31,7 @@ resource "aws_subnet" "subnets" {
     {
       Name = local.subnets[count.index].name
       # add cluster tag only if needed
-         },
+    },
     local.common_tags
   )
 }
@@ -188,9 +188,9 @@ resource "aws_security_group" "sg" {
 
   tags = merge(
     {
-      Name  = each.value.name
-      purpose   = var.purpose
-      owner = var.owner
+      Name    = each.value.name
+      purpose = var.purpose
+      owner   = var.owner
     },
     local.common_tags
   )
@@ -292,7 +292,7 @@ resource "aws_instance" "bastion" {
 
   tags = merge(
     {
-      Name = "${local.base_name}-bastion"
+      Name = "${local.base_name}-bastion-instance"
     },
     local.common_tags
   )
@@ -333,7 +333,7 @@ resource "aws_instance" "private_instances" {
 
   tags = merge(
     {
-      Name = "${local.base_name}-app-${count.index}"
+      Name = "${local.base_name}-instance-${count.index}"
     },
     local.common_tags
   )

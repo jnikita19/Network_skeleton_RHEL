@@ -79,7 +79,7 @@ locals {
     }
   }
 
-   flattened_ingress_rules = flatten([
+  flattened_ingress_rules = flatten([
     for sg_key, sg_value in local.security_group_config : [
       for rule in sg_value.ingress : [
         rule.source_sg_names != null && length(rule.source_sg_names) > 0 ? {
@@ -94,7 +94,7 @@ locals {
       ]
     ]
   ])
-   flattened_egress_rules = flatten([
+  flattened_egress_rules = flatten([
     for sg_key, sg_value in local.security_group_config : [
       for rule in sg_value.egress : [
         length(try(rule.source_sg_names, [])) > 0 ? {
