@@ -138,7 +138,7 @@ allocate_elastic_ip     = true
 ###########################################
 # Private Instances Configuration
 ###########################################
-enable_private_instances = true
+enable_private_instances = false
 private_instance_count   = 25
 private_instance_ami_id  = "ami-0fcb2d702e65ba9c1"
 private_instance_type    = "t2.micro"
